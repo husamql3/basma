@@ -1,0 +1,14 @@
+- client: svelte
+- api: svelte query
+- form: svelte forms lib
+- validation: zod
+- ui: flowbite
+- server: hono
+- auth: clerk
+- orm: type orm
+- table: tanstack
+- db: psql
+- payment: polar
+- monorepo: bun
+- deployment: cloudflare/netlify
+- biome
