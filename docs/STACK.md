@@ -1,16 +1,16 @@
 - [x] client: svelte
-- [ ] api: svelte query
-- [ ] form: svelte forms lib
-- [ ] validation: zod
-- [ ] ui: flowbite
+  - [ ] api: svelte query
+  - [ ] form: svelte forms lib
+  - [ ] validation: zod
+  - [ ] table: tanstack
+  - [ ] ui: flowbite
 - [x] server: hono
-- [ ] auth: clerk
-- [ ] orm: type orm
-- [ ] table: tanstack
-- [ ] db: psql
-- [ ] payment: polar
+  - [ ] auth: clerk
+  - [ ] orm: type orm
+  - [ ] db: psql
 - [x] monorepo: bun
 - [ ] deployment
   - [ ] client - netlify
   - [ ] server - cloudflare
+- [ ] payment: polar || stripe
 - [ ] biome
