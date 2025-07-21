@@ -3,6 +3,6 @@ import { Hono } from "hono";
 
 export const authRoute = new Hono();
 
-authRoute.all("/*", (c) => {
-  return auth.handler(c.req.raw);
+authRoute.all("/auth/*", (c) => {
+	return auth.handler(c.req.raw);
 });
