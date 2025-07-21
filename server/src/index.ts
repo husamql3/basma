@@ -1,22 +1,42 @@
 import { Hono } from "hono";
+import { serveStatic } from "hono/bun";
 import { cors } from "hono/cors";
-import type { ApiResponse } from "shared/dist";
+import { logger } from "hono/logger";
 
-export const app = new Hono()
+import { auth } from "./lib/auth";
+import { env } from "./env";
+import { helloRoute } from "./routes/hello.route";
+import { homeRoute } from "./routes/home.route";
+import { authRoute } from "./routes/auth.route";
+import type { AppType } from "./types/app.type";
+import { corsOptions } from "./lib/cors-options";
 
-.use(cors())
+export const app = new Hono<{ Variables: AppType }>()
+  .use(cors(corsOptions))
+  .use(logger())
+  .basePath("/api");
 
-.get("/", (c) => {
-	return c.text("Hello Hono!");
-})
+app.use("*", async (c, next) => {
+  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+  if (!session) {
+    c.set("user", null);
+    c.set("session", null);
+    return next();
+  }
 
-.get("/hello", async (c) => {
-	const data: ApiResponse = {
-		message: "Hello BHVR!",
-		success: true,
-	};
-
-	return c.json(data, { status: 200 });
+  c.set("user", session.user);
+  c.set("session", session.session);
+  return next();
 });
 
-export default app;
+app.route("/", homeRoute);
+app.route("/hello", helloRoute);
+app.route("/api/auth/*", authRoute);
+
+app.get("*", serveStatic({ root: "../client/dist" }));
+app.get("*", serveStatic({ path: "index.html", root: "../client/dist" }));
+
+Bun.serve({
+  fetch: app.fetch,
+  port: 3000,
+});

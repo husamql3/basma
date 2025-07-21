@@ -5,7 +5,7 @@
   - [ ] table: tanstack
   - [ ] ui: flowbite
 - [x] server: hono
-  - [ ] auth: clerk
+  - [ ] auth: better-auth
   - [ ] orm: type orm
   - [ ] db: psql
 - [x] monorepo: bun
